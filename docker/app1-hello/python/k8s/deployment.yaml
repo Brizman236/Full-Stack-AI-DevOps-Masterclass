@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-hello-python
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: app-hello-python
+  template:
+    metadata:
+      labels:
+        app: app-hello-python
+    spec:
+      containers:
+      - name: app-hello-python
+        image: brizman236/app-hello-python
+        env:
+          - name: APP_MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: app-hello-python-config
+                key: MESSAGE
+          - name: ENV_VALUE
+            valueFrom:
+              configMapKeyRef:
+                name: app-hello-python-config
+                key: ENV
+          - name: APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: app-hello-python-secret
+                key: secret                
+        resources:
+          requests:
+            memory: "120Mi"
+            cpu: "500m"
+          limits:
+              memory: "120Mi"
+              cpu: "500m"
+        ports:
+        - containerPort: 3000
+          

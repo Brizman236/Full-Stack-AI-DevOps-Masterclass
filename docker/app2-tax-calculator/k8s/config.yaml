@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tax-app-config
+data:
+  FRONTEND_URL: 'http://localhost:32000'
+  API_URL: 'http://localhost:32500'
+  TAX_SERVICE_URL: 'http://service-b:4000'
+

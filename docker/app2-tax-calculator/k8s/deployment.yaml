@@ -1,0 +1,119 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b
+  namespace: default
+  labels:
+    app: service-b
+spec:
+  selector:
+    matchLabels:
+      app: service-b
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: service-b
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name: service-b
+        image: brizman236/tax-app-service-b:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 4000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a
+  namespace: default
+  labels:
+    app: service-a
+spec:
+  selector:
+    matchLabels:
+      app: service-a
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: service-a
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name: service-a
+        image: brizman236/tax-app-service-a:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          - name: TAX_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: tax-app-config
+                key: TAX_SERVICE_URL
+          - name: FRONTEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: tax-app-config
+                key: FRONTEND_URL
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name: frontend
+        image: brizman236/tax-app-frontend:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        env:
+          - name: VITE_API_URL
+            valueFrom:
+              configMapKeyRef:
+                name: tax-app-config
+                key: API_URL
+        ports:
+        - containerPort: 5173

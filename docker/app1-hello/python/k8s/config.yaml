@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-hello-python-config
+data:
+  MESSAGE: 'Hello from Python Flask Application'
+  ENV: 'production'
