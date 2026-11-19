@@ -1,0 +1,16 @@
+name: Demo - Environment variables and secrets
+
+on: 
+    workflow_dispatch: 
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Say Hello
+              run: echo 'Hello from Demo workflow'
+            
+            - name: Install
+              env:
+                APP_ENV: dev
+              run: echo 'Environment' $APP_ENV
