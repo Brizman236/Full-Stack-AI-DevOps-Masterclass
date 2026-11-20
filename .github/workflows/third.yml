@@ -18,3 +18,15 @@ jobs:
                 
                 DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
               run: echo "My Environment $GLOBAL_APP_ENV and Password $DB_PASSWORD"
+            
+            - name: Create demo file
+              run: 
+                echo "This is a test file" > file.txt
+                echo "File created successfully"
+
+            - name: Upload Demo
+              uses: actions/upload-artifact@v7
+              with: 
+                name: build-artefact-Demo
+                path: .
+
