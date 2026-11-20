@@ -3,6 +3,8 @@ name: Demo - Environment variables and secrets
 on: 
   push
     # workflow_dispatch: 
+env:
+  GLOBAL_APP_ENV: GLOBAL_APP_ENV
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -13,6 +15,6 @@ jobs:
             
             - name: Install
               env:
-                APP_ENV: dev
+                
                 DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-              run: echo "My Environment $APP_ENV and Password $DB_PASSWORD"
+              run: echo "My Environment $GLOBAL_APP_ENV and Password $DB_PASSWORD"
