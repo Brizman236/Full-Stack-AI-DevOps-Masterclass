@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-            node-version: 27
+            node-version: 24
 
       - name: Install Dependencies
         working-directory: $WORKDIR
